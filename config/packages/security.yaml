@@ -15,7 +15,9 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
-            anonymous: true
+            anonymous: ~
+            json_login:
+                check_path: /users/login
 
             # activate different ways to authenticate
 
