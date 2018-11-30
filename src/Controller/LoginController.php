@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 class LoginController extends AbstractController
@@ -11,7 +10,7 @@ class LoginController extends AbstractController
     /**
      * @Route("/users/login", name="login")
      */
-    public function login(Request $request)
+    public function login()
     {
         $user = $this->getUser();
         return $this->json([
