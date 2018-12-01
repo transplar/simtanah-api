@@ -37,6 +37,7 @@ class LoginController extends AbstractController
             $content['status'] = 'OK';
             $content['user'] = [
                 'username' => $user->getUsername(),
+                'fullname' => $user->getFullname(),
                 'roles' => $user->getRoles(),
             ];
         }
