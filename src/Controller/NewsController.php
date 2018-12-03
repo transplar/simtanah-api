@@ -11,9 +11,25 @@ use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use App\Entity\News;
+use App\Repository\NewsRepository;
 
 class NewsController extends AbstractController
 {
+
+
+    /**
+     * @Route("/news", name="news_list", methods={"GET"})
+     */
+    public function list(NewsRepository $newsRepository)
+    {
+        $response = new JsonResponse;
+        $content = [];
+        $news = $this->serialize($newsRepository->findAll(), true);
+        $content['status'] = 'OK';
+        $content['items'] = $news;
+        return $response->setData($content);
+    }
+
     /**
      * @Route("/news", name="create_news", methods={"POST"})
      */
@@ -47,5 +63,15 @@ class NewsController extends AbstractController
         $content['item'] = json_decode($serializer->serialize($news, 'json'), true);
 
         return $response->setData($content);
+    }
+
+    private function serialize($data, bool $decode = false)
+    {
+        $serializer = new Serializer([new ObjectNormalizer], [new JsonEncoder]);
+
+        if (!$decode) {
+            return $serializer->serialize($data, 'json');
+        }
+        return json_decode($serializer->serialize($data, 'json'), true);
     }
 }
