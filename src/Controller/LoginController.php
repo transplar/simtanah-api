@@ -41,8 +41,7 @@ class LoginController extends AbstractController
                 'roles' => $user->getRoles(),
             ];
         }
-        $response->setData($content)
-            ->setEncodingOptions(1);
+        $response->setData($content);
 
         return $response;
     }
