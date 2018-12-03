@@ -24,8 +24,16 @@ class NewsController extends AbstractController
     {
         $response = new JsonResponse;
         $content = [];
-        $news = $this->serialize($newsRepository->findAll(), true);
-        $content['status'] = 'OK';
+        $news = $this->serialize($newsRepository->findBy([], [
+            'last_update' => 'DESC'
+        ]), true);
+        if (empty($news)) {
+            $content['status'] = 'ERROR';
+            $content['message'] = 'Resoure empty.';
+            $response->setStatusCode(404);
+        } else {
+            $content['status'] = 'OK';
+        }
         $content['items'] = $news;
         return $response->setData($content);
     }
