@@ -43,7 +43,6 @@ class NewsController extends AbstractController
         }
 
         $news = new News;
-        $serializer = new Serializer([new ObjectNormalizer], [new JsonEncoder]);
         $content = [];
 
         $data = json_decode($request->getContent(), true);
@@ -60,7 +59,7 @@ class NewsController extends AbstractController
 
         $content['status'] = 'OK';
         $content['message'] = 'Berita berhasil tersimpan.';
-        $content['item'] = json_decode($serializer->serialize($news, 'json'), true);
+        $content['item'] = $this->serialize($news, true);
 
         return $response->setData($content);
     }
