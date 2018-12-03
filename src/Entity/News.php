@@ -73,9 +73,9 @@ class News
         return $this;
     }
 
-    public function getPublishedOn(): ?\DateTimeInterface
+    public function getPublishedOn(): ?string
     {
-        return $this->published_on;
+        return $this->published_on->format('Y-m-d H:i:s');
     }
 
     public function setPublishedOn(\DateTimeInterface $published_on): self
@@ -85,9 +85,9 @@ class News
         return $this;
     }
 
-    public function getLastUpdate(): ?\DateTimeInterface
+    public function getLastUpdate(): ?string
     {
-        return $this->last_update;
+        return $this->last_update->format('Y-m-d H:i:s');
     }
 
     public function setLastUpdate(\DateTimeInterface $last_update): self
@@ -97,9 +97,9 @@ class News
         return $this;
     }
 
-    public function getWriter(): ?User
+    public function getWriter(): ?string
     {
-        return $this->writer;
+        return $this->writer->getUsername();
     }
 
     public function setWriter(?User $writer): self

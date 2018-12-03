@@ -158,7 +158,7 @@ class User implements UserInterface
         if ($this->news->contains($news)) {
             $this->news->removeElement($news);
             // set the owning side to null (unless already changed)
-            if ($news->getWriter() === $this) {
+            if ($news->getWriter() === $this->getUsername()) {
                 $news->setWriter(null);
             }
         }
