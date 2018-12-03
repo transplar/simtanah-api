@@ -45,7 +45,7 @@ class NewsController extends AbstractController
     }
 
     /**
-     * @Route("/news", name="create_news", methods={"POST"})
+     * @Route("/news", name="news_create", methods={"POST"})
      */
     public function create(Request $request, EntityManagerInterface $em)
     {
