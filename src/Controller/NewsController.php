@@ -20,13 +20,19 @@ class NewsController extends AbstractController
     /**
      * @Route("/news", name="news_list", methods={"GET"})
      */
-    public function list(NewsRepository $newsRepository)
+    public function list(Request $request, NewsRepository $newsRepository)
     {
         $response = new JsonResponse;
         $content = [];
-        $news = $this->serialize($newsRepository->findBy([], [
-            'last_update' => 'DESC'
-        ]), true);
+        $limit = $request->query->get('limit') ?? 20;
+        $offset = $request->query->get('page') ?? 0;
+        $news = $newsRepository->findBy(
+            [],
+            ['last_update' => 'DESC'],
+            $limit,
+            $offset
+        );
+        $news = $this->serialize($news, true);
         if (empty($news)) {
             $content['status'] = 'ERROR';
             $content['message'] = 'Resoure empty.';
