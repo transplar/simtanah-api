@@ -33,7 +33,7 @@ class NewsController extends AbstractController
     /**
      * @Route("/news", name="create_news", methods={"POST"})
      */
-    public function index(Request $request, EntityManagerInterface $em)
+    public function create(Request $request, EntityManagerInterface $em)
     {
         $response = new JsonResponse;
         $user = $this->getUser();
