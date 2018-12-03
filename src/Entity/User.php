@@ -41,7 +41,7 @@ class User implements UserInterface
     private $fullname;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\News", mappedBy="writer")
+     * @ORM\OneToMany(targetEntity="App\Entity\News", mappedBy="writer")
      */
     private $news;
 
@@ -147,7 +147,7 @@ class User implements UserInterface
     {
         if (!$this->news->contains($news)) {
             $this->news[] = $news;
-            $news->addWriter($this);
+            $news->setWriter($this);
         }
 
         return $this;
@@ -157,7 +157,10 @@ class User implements UserInterface
     {
         if ($this->news->contains($news)) {
             $this->news->removeElement($news);
-            $news->removeWriter($this);
+            // set the owning side to null (unless already changed)
+            if ($news->getWriter() === $this) {
+                $news->setWriter(null);
+            }
         }
 
         return $this;

@@ -39,14 +39,10 @@ class News
     private $last_update;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\User", inversedBy="news")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="news")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $writer;
-
-    public function __construct()
-    {
-        $this->writer = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -101,28 +97,14 @@ class News
         return $this;
     }
 
-    /**
-     * @return Collection|User[]
-     */
-    public function getWriter(): Collection
+    public function getWriter(): ?User
     {
         return $this->writer;
     }
 
-    public function addWriter(User $writer): self
+    public function setWriter(?User $writer): self
     {
-        if (!$this->writer->contains($writer)) {
-            $this->writer[] = $writer;
-        }
-
-        return $this;
-    }
-
-    public function removeWriter(User $writer): self
-    {
-        if ($this->writer->contains($writer)) {
-            $this->writer->removeElement($writer);
-        }
+        $this->writer = $writer;
 
         return $this;
     }
