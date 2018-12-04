@@ -15,8 +15,6 @@ use App\Repository\NewsRepository;
 
 class NewsController extends AbstractController
 {
-
-
     /**
      * @Route("/news", name="news_list", methods={"GET"})
      */
