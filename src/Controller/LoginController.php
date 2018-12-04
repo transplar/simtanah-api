@@ -21,6 +21,14 @@ class LoginController extends AbstractController
     }
 
     /**
+     * @Route("/users/logout", name="users_logout", methods={"GET"})
+     */
+    public function logout()
+    {
+        throw new \Exception('Don\'t forget to activate logout in security.yaml');
+    }
+
+    /**
      * @Route("/users/me", name="me", methods={"GET"})
      */
     public function me()
