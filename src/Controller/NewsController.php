@@ -76,6 +76,20 @@ class NewsController extends AbstractController
         return $response->setData($content);
     }
 
+    /**
+     * @Route("/news/{id}", name="news_delete", methods={"DELETE"})
+     */
+    public function delete(Request $request, EntityManagerInterface $em, NewsRepository $newsRepository, $id)
+    {
+        // TODO protect with authentication and authorization
+        $news = $newsRepository->findOneBy(['id' => $id]);
+        if ($news) {
+            $em->remove($news);
+            $em->flush();
+        }
+        return $this->json([$news]);
+    }
+
     private function serialize($data, bool $decode = false)
     {
         $serializer = new Serializer([new ObjectNormalizer], [new JsonEncoder]);
