@@ -90,6 +90,18 @@ class NewsController extends AbstractController
         return $this->json([$news]);
     }
 
+    /**
+     * @Route("/news/{id}", name="news_detail", methods={"GET"})
+     */
+    public function detail(NewsRepository $newsRepository, $id)
+    {
+        $news = $newsRepository->findOneBy(['id' => $id]);
+        if (!$news) {
+            return $this->json([], 404);
+        }
+        return $this->json($news);
+    }
+
     private function serialize($data, bool $decode = false)
     {
         $serializer = new Serializer([new ObjectNormalizer], [new JsonEncoder]);
