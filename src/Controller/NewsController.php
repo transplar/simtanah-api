@@ -102,6 +102,39 @@ class NewsController extends AbstractController
         return $this->json($news);
     }
 
+    /**
+     * @Route("/news", name="news_update", methods={"PATCH"})
+     */
+    public function update(Request $request, EntityManagerInterface $em, NewsRepository $newsRepository)
+    {
+        $response = new JsonResponse;
+        $user = $this->getUser();
+
+        if (!$user) {
+            return $response->setStatusCode(401);
+        }
+
+        $data = json_decode($request->getContent(), true);
+        $news = $newsRepository->findOneBy(['id' => $data['id']]);
+        $content = [];
+
+        $now = new \DateTime();
+        $news->setTitle($data['title'])
+            ->setContent($data['content'])
+            ->setWriter($user)
+            ->setLastUpdate($now)
+        ;
+
+        $em->persist($news);
+        $em->flush();
+
+        $content['status'] = 'OK';
+        $content['message'] = 'Berita dengan id "'.$data['id'].'" berhasil tersimpan.';
+        $content['item'] = $this->serialize($news, true);
+
+        return $response->setData($content);
+    }
+
     private function serialize($data, bool $decode = false)
     {
         $serializer = new Serializer([new ObjectNormalizer], [new JsonEncoder]);
