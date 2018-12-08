@@ -18,6 +18,8 @@ security:
             anonymous: ~
             json_login:
                 check_path: /users/login
+            logout:
+                path: users_logout
 
             # activate different ways to authenticate
 
