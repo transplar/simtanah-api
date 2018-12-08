@@ -80,6 +80,9 @@
     "jdorn/sql-formatter": {
         "version": "v1.2.17"
     },
+    "jsor/doctrine-postgis": {
+        "version": "v1.7.0"
+    },
     "nelmio/cors-bundle": {
         "version": "1.5",
         "recipe": {
