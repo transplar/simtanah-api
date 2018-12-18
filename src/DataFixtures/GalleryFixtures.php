@@ -13,12 +13,12 @@ class GalleryFixtures extends Fixture
         $gallery = new Gallery;
         $gallery->setCaption('Kitten')
         	->setUrl('http://placekitten.com/600/300')
-        	->setEventDate(new DateTime)
+        	->setEventDate(new \DateTime)
         ;
         $gallery1 = new Gallery;
         $gallery1->setCaption('Kitten')
         	->setUrl('http://placekitten.com/400/300')
-        	->setEventDate(new DateTime)
+        	->setEventDate(new \DateTime)
         ;
 
         $manager->persist($gallery);
