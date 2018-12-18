@@ -24,7 +24,7 @@ class Gallery
     /**
      * @ORM\Column(type="date")
      */
-    private $eventDate;
+    private $event_date;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -50,12 +50,12 @@ class Gallery
 
     public function getEventDate(): ?\DateTimeInterface
     {
-        return $this->eventDate;
+        return $this->event_date;
     }
 
-    public function setEventDate(\DateTimeInterface $eventDate): self
+    public function setEventDate(\DateTimeInterface $event_date): self
     {
-        $this->eventDate = $eventDate;
+        $this->event_date = $event_date;
 
         return $this;
     }

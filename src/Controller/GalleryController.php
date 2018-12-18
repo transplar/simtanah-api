@@ -18,7 +18,7 @@ class GalleryController extends AbstractController
         $offset = $request->query->get('page') * $limit ?? 0;
         $gallery = $galleryRepository->findBy(
             [],
-            ['eventDate' => 'DESC'],
+            ['event_date' => 'DESC'],
             $limit,
             $offset
         );
