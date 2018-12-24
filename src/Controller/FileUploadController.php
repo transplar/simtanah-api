@@ -11,7 +11,7 @@ class FileUploadController extends AbstractController
     /**
      * @Route("/upload", name="file_upload", methods={"POST"})
      */
-    public function index(Request $request)
+    public function upload(Request $request)
     {
         if (!$this->getUser()) {
             return $this->json([
