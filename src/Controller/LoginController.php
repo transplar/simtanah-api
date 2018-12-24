@@ -90,7 +90,6 @@ class LoginController extends AbstractController
         return $this->json([
             'status' => 'OK',
             'message' => 'Password changed.',
-            'check' => $checkPass,
         ]);
     }
 }
