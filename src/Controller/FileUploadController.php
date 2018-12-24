@@ -27,6 +27,11 @@ class FileUploadController extends AbstractController
             ], 400);
         }
 
+        return $this->json($this->save($request, $_FILES));
+    }
+
+    private function save(Request $request, $file)
+    {
         $uploadDir = $this->getParameter('kernel.project_dir');
         $hashValue = hash_file('crc32', $_FILES['file']['tmp_name']);
         $filename = $hashValue . '-' . $_FILES['file']['name'];
@@ -34,10 +39,10 @@ class FileUploadController extends AbstractController
         move_uploaded_file($_FILES['file']['tmp_name'], $file);
         $url = $request->getUri(). '/' . $filename;
 
-        return $this->json([
+        return [
             'status' => 'OK',
-            'url' => $url,
             'filename' => $filename,
-        ]);
+            'url' => $url,
+        ];
     }
 }
