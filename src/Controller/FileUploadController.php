@@ -32,17 +32,21 @@ class FileUploadController extends AbstractController
 
     private function save(Request $request, $file)
     {
-        $uploadDir = $this->getParameter('kernel.project_dir');
-        $hashValue = hash_file('crc32', $_FILES['file']['tmp_name']);
-        $filename = $hashValue . '-' . $_FILES['file']['name'];
-        $file = $uploadDir.'/public/upload/'.$filename;
-        move_uploaded_file($_FILES['file']['tmp_name'], $file);
-        $url = $request->getUri(). '/' . $filename;
+        $uploadDir          = $this->getParameter('kernel.project_dir');
+        $originalFilename   = $_FILES['file']['name'];
+        $temporaryFilename  = $_FILES['file']['tmp_name'];
+        $hashValue          = hash_file('crc32', $temporaryFilename);
+        $fileExtension      = (new \SplFileInfo($originalFilename))->getExtension();
+        $filename           = $hashValue . '.' . $fileExtension;
+        $file               = $uploadDir.'/public/upload/'.$filename;
+        $url                = $request->getUri(). '/' . $filename;
+        move_uploaded_file($temporaryFilename, $file);
 
         return [
-            'status' => 'OK',
-            'filename' => $filename,
-            'url' => $url,
+            'status'        => 'OK',
+            'filename'      => $filename,
+            'url'           => $url,
+            'file'          => $_FILES,
         ];
     }
 }
