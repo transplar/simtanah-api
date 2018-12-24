@@ -13,6 +13,13 @@ class FileUploadController extends AbstractController
      */
     public function index(Request $request)
     {
+        if (!$this->getUser()) {
+            return $this->json([
+                'status' => 'ERROR',
+                'message' => 'Access Denied, please login.',
+            ], 403);
+        }
+
         if (!isset($_FILES['file']) || empty($_FILES['file'])) {
             return $this->json([
                 'status' => 'ERROR',
