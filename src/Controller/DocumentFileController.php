@@ -39,6 +39,38 @@ class DocumentFileController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/document", name="document_new", methods={"POST"})
+     */
+    public function new(Request $request, EntityManagerInterface $em)
+    {
+        if (!$this->getUser()) {
+            return $this->denied();
+        }
+
+        $body = json_decode($request->getContent(), true);
+        if (!isset($body['url']) || !isset($body['filename']) || !isset($body['document_type'])) {
+            return $this->json([
+                'status' => 'ERROR',
+                'message' => 'Invalid requset',
+            ], 400);
+        }
+
+        $document = new DocumentFile;
+        $document->setUrl($body['url'])
+            ->setFilename($body['filename'])
+            ->setDocumentType($body['document_type'])
+        ;
+        $em->persist($document);
+        $em->flush();
+
+        return $this->json([
+            'status' => 'OK',
+            'message' => 'Saved successfully.',
+            'item' => $document,
+        ]);
+    }
+
     private function denied()
     {
         return $this->json([
