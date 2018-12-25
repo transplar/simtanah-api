@@ -1,6 +1,6 @@
 # Development Toolkit
 /src/DataFixtures
-/src/Migrations
+# /src/Migrations
 
 ###> symfony/framework-bundle ###
 /.env
