@@ -103,6 +103,32 @@ class DocumentFileController extends AbstractController
         return $response;
     }
 
+    /**
+     * @Route("/document/{id}", name="document_delete", methods={"DELETE"})
+     */
+    public function delete(DocumentFileRepository $documentFileRepository, EntityManagerInterface $em, $id)
+    {
+        if (!$this->getUser()) {
+            return $this->denied();
+        }
+
+        $document = $documentFileRepository->findOneBy(['id' => $id]);
+        if (!$document) {
+            return $this->json([
+                'status' => 'OK',
+                'message' => 'Resource not found.',
+            ], 404);
+        }
+        $em->remove($document);
+        $em->flush();
+
+        return $this->json([
+            'status' => 'OK',
+            'message' => 'Succecfully deleted.',
+            'item' => $document,
+        ]);
+    }
+
     private function denied()
     {
         return $this->json([
