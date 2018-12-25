@@ -71,6 +71,38 @@ class DocumentFileController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/document", name="document_update", methods={"PATCH"})
+     */
+    public function update(Request $request, EntityManagerInterface $em, DocumentFileRepository $documentFileRepository)
+    {
+        $response = new JsonResponse;
+        $content = [];
+
+        if (!$this->getUser()) {
+            return $this->denied();
+        }
+
+        $body = json_decode($request->getContent(), true);
+        try {
+            $document = $documentFileRepository->findOneBy(['id' => $body['id']]);
+            $document->setUrl($body['url'])
+                ->setFilename($body['filename'])
+                ->setDocumentType($body['document_type'])
+            ;
+            $em->flush();
+            $content['status'] = 'OK';
+            $content['message'] = 'Succesfully updated.';
+            $content['item'] = $document;
+        } catch (\Exception $e) {
+            $content['status'] = 'ERROR';
+            $content['message'] = 'Failed to update.';
+            $response->setStatusCode(400);
+        }
+        $response->setData($content);
+        return $response;
+    }
+
     private function denied()
     {
         return $this->json([
