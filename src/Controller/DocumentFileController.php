@@ -35,7 +35,7 @@ class DocumentFileController extends AbstractController
 
         return $this->json([
             'status' => 'OK',
-            'items' => $gallery,
+            'items' => $document,
         ]);
     }
 
