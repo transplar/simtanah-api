@@ -109,6 +109,32 @@ class GalleryController extends AbstractController
         return $response;
     }
 
+    /**
+     * @Route("/gallery/{id}", name="gallery_delete", methods={"DELETE"})
+     */
+    public function delete(GalleryRepository $galleryRepository, EntityManagerInterface $em, $id)
+    {
+        if (!$this->getUser()) {
+            return $this->denied();
+        }
+
+        $gallery = $galleryRepository->findOneBy(['id' => $id]);
+        if (!$gallery) {
+            return $this->json([
+                'status' => 'OK',
+                'message' => 'Resource not found.',
+            ], 404);
+        }
+        $em->remove($gallery);
+        $em->flush();
+
+        return $this->json([
+            'status' => 'OK',
+            'message' => 'Succecfully deleted.',
+            'item' => $gallery,
+        ]);
+    }
+
     private function denied()
     {
         return $this->json([
