@@ -74,12 +74,20 @@ class LoginController extends AbstractController
         $requsetBody = json_decode($request->getContent(), true);
         $oldPassword = $requsetBody['old_password'];
         $newPassword = $requsetBody['new_password'];
+        $newPasswordConfirm = $requsetBody['new_password_confirm'];
         $checkPass = $passwordEncoder->isPasswordValid($user, $password);
 
         if (!$checkPass) {
             return $this->json([
                 'status' => 'ERROR',
                 'message' => 'Invalid old password',
+            ], 400);
+        }
+
+        if ($newPassword !== $newPasswordConfirm) {
+            return $this->json([
+                'status' => 'ERROR',
+                'message' => 'New password is not matched.',
             ], 400);
         }
 
