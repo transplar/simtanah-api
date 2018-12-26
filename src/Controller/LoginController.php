@@ -75,7 +75,7 @@ class LoginController extends AbstractController
         $oldPassword = $requsetBody['old_password'];
         $newPassword = $requsetBody['new_password'];
         $newPasswordConfirm = $requsetBody['new_password_confirm'];
-        $checkPass = $passwordEncoder->isPasswordValid($user, $password);
+        $checkPass = $passwordEncoder->isPasswordValid($user, $oldPassword);
 
         if (!$checkPass) {
             return $this->json([
